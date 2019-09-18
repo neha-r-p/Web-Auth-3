@@ -4,8 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 const Users = require("../users/users-model");
-
-module.exports = router;
+const secrets = require("./secrets")
 
 router.post("/register", (req, res) => {
   let newUser = req.body;
@@ -32,7 +31,20 @@ router.post("/login", (req, res) => {
         const token = generateToken(user);
         res.status(200).json({ token });
       } else {
-          res.status(401).json({ error: "You shall not pass!"})
+        res.status(401).json({ error: "You shall not pass!" });
       }
     });
 });
+
+function generateToken(user) {
+  const payload = {
+    username: user.username
+  };
+  const options = {
+    expiresIn: "12h"
+  };
+
+  return jwt.sign(payload, secrets.jwtSecret, options);
+}
+
+module.exports = router;
