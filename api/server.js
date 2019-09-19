@@ -15,7 +15,7 @@ server.use('/api/auth', authRouter);
 server.use('/api/users', usersRouter);
 
 server.get('/', (req, res) => {
-  res.send("I'm working, yay!");
+  res.status(200).json({ api: 'running' })
 });
 
 module.exports = server;
