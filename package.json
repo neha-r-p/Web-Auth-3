@@ -8,6 +8,9 @@
     "test": "cross-env DB_ENV=testing jest --watch",
     "start": "node index.js"
   },
+  "jest": {
+    "testEnvirnoment": "node"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/neha-r-p/Web-Auth-3.git"
