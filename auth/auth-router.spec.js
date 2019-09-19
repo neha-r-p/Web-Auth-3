@@ -1,24 +1,17 @@
-const Users = require("../users/users-model");
-const db = require("../data/db-config.js");
+const request = require("supertest");
 
-describe("auth router", () => {
-  beforeEach(async () => {
-    await db("users").truncate();
+const auth = require("./auth-router");
+
+describe("auth-router.js", () => {
+  describe("auth route", () => {
+    it("should return status 201 from auth register route", async () => {
+      const expectedStatus = 201;
+
+      const response = await request(auth)
+        .post("/auth/register")
+        .send({ username: "hi", password: "bye", department: "whatsup" });
+        
+      expect(response.status).toBe(expectedStatus);
+    });
   });
-
-  it("should set environment to testing", () => {
-    expect(process.env.DB_ENV).toBe("testing");
-  });
-
-  describe('add()', () => {
-      it('should add user into the db', async () => {
-          await Users.add({ username: 'bum', password: 'butts', department: 'behind' })
-
-          let users = await db('users');
-
-          expect(users).toHaveLength(1);
-      })
-  })
-
-
 });
