@@ -42,7 +42,8 @@ describe("user model", () => {
     it("should delete user from db", async () => {
       const { id } = await Users.remove({username: "im",
       password: "so",
-      department: "sleepy"})
+      department: "sleepy"
+    })
 
       let users = await db("users")
       expect(users).toHaveLength(0)
