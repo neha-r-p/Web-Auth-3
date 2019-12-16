@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 const Users = require("../users/users-model");
-const secrets = require("./secrets")
+const secrets = require("./secrets");
 
 router.post("/register", (req, res) => {
   let newUser = req.body;
@@ -33,6 +33,25 @@ router.post("/login", (req, res) => {
       } else {
         res.status(401).json({ error: "You shall not pass!" });
       }
+    });
+});
+
+router.delete("/delete", (req, res) => {
+  let { id } = req.params;
+
+  Users.remove(id)
+    .then(user => {
+      if (user) {
+        res.status(204).json({ message: "successfully deleted the user" });
+      } else {
+        res
+          .status(404)
+          .json({ message: "Cannot delete that which does not exist" });
+      }
+    })
+    .catch(err => {
+      // console.log(err);
+      res.status(500).json({ error: "Error removing user" });
     });
 });
 
